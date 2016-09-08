@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Locator</title>
+    <style media="screen">
+      button {height:50vh; width:40vw}
+    </style>
+  </head>
+  <body>
+    <button style="background:#08f" onclick="ping(350)"></button>
+    <button style="background:#f08" onclick="ping(450)"></button>
+
+    <script type="text/javascript">
+    // create web audio api context
+    var audioCtx = new (window.AudioContext || window.webkitAudioContext)()
+
+    function ping(freq, volume, side) {
+
+      // create Oscillator node
+      var oscillator = audioCtx.createOscillator()
+
+      oscillator.type = 'sine'
+      oscillator.frequency.value = freq || 200
+      oscillator.start()
+
+      var gain = audioCtx.createGain()
+      gain.gain.value = 0
+      gain.gain.exponentialRampToValueAtTime(1, audioCtx.currentTime+ 0.1)
+      gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime+0.5)
+      oscillator.connect(gain)
+      // delay.connect(audioCtx.destination)
+
+
+      var panNode = audioCtx.createStereoPanner()
+      panNode.pan.value = 0
+
+      gain.connect(panNode)
+      panNode.connect(audioCtx.destination)
+
+
+      // delay.delayTime.value = 0.02
+      // delay.delayTime.linearRampToValueAtTime(0.01,10)
+
+      oscillator.frequency.linearRampToValueAtTime(550, 13)
+    }
+
+    setTimeout(function(){
+        ping(350)
+    }, 500)
+
+    setTimeout(function(){
+        ping(450)
+    }, 1200)
+
+    window.addEventListener('keyup', function(e){
+      if(e.key == 'ArrowLeft') {
+        ping(350)
+      }
+      if(e.key == 'ArrowRight') {
+        ping(450)
+      }
+    })
+
+
+
+    // // create Oscillator node
+    // var oscillator = audioCtx.createOscillator()
+    //
+    // oscillator.type = 'sine'
+    // oscillator.frequency.value = 200
+    // // oscillator.connect(audioCtx.destination)
+    // oscillator.start()
+    //
+    //
+    // var delay = audioCtx.createDelay()
+    //
+    // oscillator.connect(delay)
+    // // delay.connect(audioCtx.destination)
+    //
+    //
+    // var panNode = audioCtx.createStereoPanner()
+    // panNode.pan.value = 0
+    //
+    // delay.connect(panNode)
+    // panNode.connect(audioCtx.destination)
+    //
+    //
+    // // delay.delayTime.value = 0.02
+    // // delay.delayTime.linearRampToValueAtTime(0.01,10)
+    //
+    // oscillator.frequency.linearRampToValueAtTime(550, 13)
+
+
+
+
+    //
+    //
+    // var oscillator2 = audioCtx.createOscillator()
+    // oscillator2.type = 'sine'
+    // oscillator2.frequency.value = 300
+    // // oscillator2.connect(audioCtx.destination)
+    // oscillator2.start()
+    //
+    // var delay2 = audioCtx.createDelay()
+    //
+    // oscillator2.connect(delay2)
+    // delay2.connect(audioCtx.destination)
+    //
+    // delay2.delayTime.value = 0.01
+    // delay2.delayTime.linearRampToValueAtTime(0.02,10)
+    //
+    // //
+    // // oscillator.frequency.linearRampToValueAtTime(200, 13)
+    //
+    //
+    // var panNode2 = audioCtx.createStereoPanner()
+    // panNode2.pan.value = 1
+    //
+    // delay2.connect(panNode2)
+    // panNode.connect(audioCtx.destination)
+
+
+    // AudioParam.linearRampToValueAtTime
+    </script>
+
+  </body>
+</html>
