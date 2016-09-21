@@ -26,31 +26,40 @@
 
       var gain = audioCtx.createGain()
       gain.gain.value = 0
-      gain.gain.exponentialRampToValueAtTime(1, audioCtx.currentTime+ 0.1)
+      gain.gain.exponentialRampToValueAtTime(volume||1, audioCtx.currentTime+ 0.1)
       gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime+0.5)
       oscillator.connect(gain)
       // delay.connect(audioCtx.destination)
 
 
       var panNode = audioCtx.createStereoPanner()
-      panNode.pan.value = 0
+      panNode.pan.value = side || 0
 
       gain.connect(panNode)
       panNode.connect(audioCtx.destination)
 
 
+      // var panNode = audioCtx.createStereoPanner()
+      // panNode.pan.value = 0
+
+
       // delay.delayTime.value = 0.02
       // delay.delayTime.linearRampToValueAtTime(0.01,10)
 
-      oscillator.frequency.linearRampToValueAtTime(550, 13)
+      // oscillator.frequency.linearRampToValueAtTime(550, 13)
+
+
+      // var panNode = audioCtx.createStereoPanner()
+      // panNode.pan.value = 0
     }
 
     setTimeout(function(){
-        ping(350)
+        ping(350, 1, -1)
     }, 500)
 
     setTimeout(function(){
-        ping(450)
+      ping(450, 1, 1)
+        // ping(450)
     }, 1200)
 
     window.addEventListener('keyup', function(e){
